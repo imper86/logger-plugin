@@ -1,5 +1,5 @@
 {
-    "name": "php-http/logger-plugin",
+    "name": "imper86/logger-plugin",
     "description": "PSR-3 Logger plugin for HTTPlug",
     "license": "MIT",
     "keywords": ["logger", "http", "httplug", "plugin"],
@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^5.4 || ^7.0",
+        "php": "^7.1",
         "psr/log": "^1.0",
         "php-http/client-common": "^1.9 || ^2.0",
         "php-http/message": "^1.0"
