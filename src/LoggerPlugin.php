@@ -50,7 +50,10 @@ final class LoggerPlugin implements Plugin
 
         return $next($request)->then(function (ResponseInterface $response) use ($request, $start) {
             $milliseconds = (int) round((microtime(true) - $start) * 1000);
-            $this->logger->info(
+            $level = $response->getStatusCode() >= 400 ? 'error' : 'info';
+
+            $this->logger->log(
+                $level,
                 sprintf("Received response:\n%s\n\nfor request:\n%s", $this->formatter->formatResponse($response), $this->formatter->formatRequest($request)),
                 $this->contextBuilder->build($request, $response, $milliseconds)
             );
@@ -61,7 +64,7 @@ final class LoggerPlugin implements Plugin
             if ($exception instanceof Exception\HttpException) {
                 $this->logger->error(
                     sprintf("Error:\n%s\nwith response:\n%s\n\nwhen sending request:\n%s", $exception->getMessage(), $this->formatter->formatResponse($exception->getResponse()), $this->formatter->formatRequest($request)),
-                    $this->contextBuilder->build($request, $exception->getResponse(), $milliseconds, $exception)
+                    $this->contextBuilder->build($exception->getRequest(), $exception->getResponse(), $milliseconds, $exception)
                 );
             } else {
                 $this->logger->error(
