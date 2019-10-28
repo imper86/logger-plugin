@@ -50,10 +50,8 @@ final class LoggerPlugin implements Plugin
 
         return $next($request)->then(function (ResponseInterface $response) use ($request, $start) {
             $milliseconds = (int) round((microtime(true) - $start) * 1000);
-            $level = $response->getStatusCode() >= 400 ? 'error' : 'info';
 
-            $this->logger->log(
-                $level,
+            $this->logger->info(
                 sprintf("Received response:\n%s\n\nfor request:\n%s", $this->formatter->formatResponse($response), $this->formatter->formatRequest($request)),
                 $this->contextBuilder->build($request, $response, $milliseconds)
             );
