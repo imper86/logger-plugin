@@ -3,6 +3,7 @@
 namespace Http\Client\Common\Plugin;
 
 use Http\Client\Common\Plugin;
+use Http\Client\Common\Plugin\ContextBuilder\ContextBuilder;
 use Http\Client\Common\Plugin\ContextBuilder\ContextBuilderInterface;
 use Http\Client\Exception;
 use Http\Message\Formatter;
@@ -36,7 +37,7 @@ final class LoggerPlugin implements Plugin
     {
         $this->logger = $logger;
         $this->formatter = $formatter ?: new SimpleFormatter();
-        $this->contextBuilder = $contextBuilder;
+        $this->contextBuilder = $contextBuilder ?: new ContextBuilder();
     }
 
     protected function doHandleRequest(RequestInterface $request, callable $next, callable $first)
