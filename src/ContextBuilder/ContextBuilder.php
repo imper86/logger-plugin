@@ -24,14 +24,14 @@ class ContextBuilder implements ContextBuilderInterface
         $context = [
             'uri' => $request->getUri()->__toString(),
             'method' => $request->getMethod(),
-            'requestHeaders' => $request->getHeaders(),
+            'requestHeaders' => json_encode($request->getHeaders()),
             'requestBody' => $request->getBody()->__toString(),
         ];
 
         if ($response) {
             $context = array_merge($context, [
                 'statusCode' => $response->getStatusCode(),
-                'responseHeaders' => $response->getHeaders(),
+                'responseHeaders' => json_encode($response->getHeaders()),
                 'responseBody' => $response->getBody()->__toString(),
             ]);
         }
